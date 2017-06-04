@@ -41,7 +41,7 @@ public:
   virtual ~accTel();
   void addTele(string name,double distance,double angle,double width,double height,double thickness);
   double minEnergy(TVector3 dir,string particle,string telename);
-  int   isDetected(TVector3 dir,string particle,double energy);
+  int   isDetected(TVector3 dir,string particle,double energy,int &ix,int &iy);
 
 private:
   map<string,JunSimuTele> mTele;

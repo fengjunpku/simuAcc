@@ -61,17 +61,27 @@ int main(int argc,char** argv)
     TVector3 vp(0,0,1);
     double en(0);
     //be9r
+    int i0 = -1;
+    int j0 = -1;
     vp = gun->GetMom("recoil");
     en = gun->GetEne("recoil");
-    int f0 = 4*tele->isDetected(vp,"Be9",en);
+    int f0 = 4*tele->isDetected(vp,"Be9",en,i0,j0);
     //he4b
+    int i1 = -1;
+    int j1 = -1;
     vp = gun->GetMom("he4b");
     en = gun->GetEne("he4b");
-    int f1 = 2*tele->isDetected(vp,"He4",en);
+    int f1 = 2*tele->isDetected(vp,"He4",en,i1,j1);
     //be9b
+    int i2 = -1;
+    int j2 = -1;
     vp = gun->GetMom("be9b");
     en = gun->GetEne("be9b");
-    int f2 = 1*tele->isDetected(vp,"Be9",en);
+    int f2 = 1*tele->isDetected(vp,"Be9",en,i2,j2);
+    //
+    if(f0*f1 && f0==f1*2 && (i0==i1|| j0==j1)) continue;
+    if(f1*f2 && f1==f2*2 && (i1==i2|| j1==j2)) continue;
+    if(f2*f0 && f0==f2*4 && (i2==i0|| j2==j0)) continue;
     //
     if(f0*f1*f2) 
     {

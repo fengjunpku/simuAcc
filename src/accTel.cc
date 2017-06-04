@@ -55,7 +55,7 @@ void accTel::addDataFile(string filename,string discription)
   mEvR[discription] = new TSpline2(discription.c_str(),rg);
 }
 
-int accTel::isDetected(TVector3 dir,string particle,double energy)
+int accTel::isDetected(TVector3 dir,string particle,double energy,int &ix,int &iy)
 {
   int flag = 0;
   if(energy<=0) return flag;
@@ -68,13 +68,15 @@ int accTel::isDetected(TVector3 dir,string particle,double energy)
     double xli = iter->second.width*0.5;
     double yli = iter->second.height*0.5;
     if(energy<min) continue;
-		//if(energy<min) cout<<nam<<" "<<min<<" "<<energy<<endl;
+    //if(energy<min) cout<<nam<<" "<<min<<" "<<energy<<endl;
     TVector3 vro = dir;
     vro.RotateY(-1*ang*deg);
     double xx = dis*vro.X()/vro.Z();
     double yy = dis*vro.Y()/vro.Z();
     if(TMath::Abs(xx)>xli) continue;
     if(TMath::Abs(yy)>yli) continue;
+    ix = int(xx/teW1w);
+    iy = int(yy/teW1w);
     flag = flag+teBase[nam];
     //cout<<ang<<" "<<dir.Theta()/deg<<" "<<dir.Phi()/deg<<" "<<flag<<endl;
   }
@@ -98,11 +100,11 @@ double accTel::minEnergy(TVector3 dir,string particle,string telename)
     double eth1 = mTele[telename].thickness/costh;
     minE  = corEnergy(eth1,minE,dsp1);
   }
-	//
-	if(telename=="l1"||telename=="r1")
-	{
-		if(particle=="Be9") minE = 8;
-	}
+  //
+  if(telename=="l1"||telename=="r1")
+  {
+    if(particle=="Be9") minE = 8;
+  }
   //loss in Al dead layer
   string dsp2 = particle+"InAl";
   double eth2 = 1./costh;
