@@ -75,8 +75,8 @@ int accTel::isDetected(TVector3 dir,string particle,double energy,int &ix,int &i
     double yy = dis*vro.Y()/vro.Z();
     if(TMath::Abs(xx)>xli) continue;
     if(TMath::Abs(yy)>yli) continue;
-    ix = int(xx/teW1w);
-    iy = int(yy/teW1w);
+    ix = int((xx+xli)/teW1w);
+    iy = int((yy+yli)/teW1w);
     flag = flag+teBase[nam];
     //cout<<ang<<" "<<dir.Theta()/deg<<" "<<dir.Phi()/deg<<" "<<flag<<endl;
   }

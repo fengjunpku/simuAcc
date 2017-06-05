@@ -39,12 +39,15 @@ int main(int argc,char** argv)
   //
   float ex;
   int cn;
+  int i[3],j[3];
   char fname[30];
   sprintf(fname,"out/t_%04d.root",run);
   TFile *f = new TFile(fname,"RECREATE");
   TTree *t = new TTree("tree","tree");
   t->Branch("ex",&ex,"ex/F");
   t->Branch("cn",&cn,"cn/I");
+  t->Branch("i",i,"i[3]/I");
+  t->Branch("j",j,"j[3]/I");
   int count = 0;
   //*****set the telescopes
   accTel *tele = new accTel();
@@ -55,33 +58,29 @@ int main(int argc,char** argv)
   //
   accGun *gun = new accGun();
   gun->SetBeam(Mass_C13,65);
-  for(int i=0;i<num;i++)
+  for(int ii=0;ii<num;ii++)
   {
     gun->BeamOn();
     TVector3 vp(0,0,1);
     double en(0);
     //be9r
-    int i0 = -1;
-    int j0 = -1;
+    i[0] = -1;
+    j[0] = -1;
     vp = gun->GetMom("recoil");
     en = gun->GetEne("recoil");
-    int f0 = 4*tele->isDetected(vp,"Be9",en,i0,j0);
+    int f0 = 4*tele->isDetected(vp,"Be9",en,i[0],j[0]);
     //he4b
-    int i1 = -1;
-    int j1 = -1;
+    i[1] = -1;
+    j[1] = -1;
     vp = gun->GetMom("he4b");
     en = gun->GetEne("he4b");
-    int f1 = 2*tele->isDetected(vp,"He4",en,i1,j1);
+    int f1 = 2*tele->isDetected(vp,"He4",en,i[1],j[1]);
     //be9b
-    int i2 = -1;
-    int j2 = -1;
+    i[2] = -1;
+    j[2] = -1;
     vp = gun->GetMom("be9b");
     en = gun->GetEne("be9b");
-    int f2 = 1*tele->isDetected(vp,"Be9",en,i2,j2);
-    //
-    if(f0*f1 && f0==f1*2 && (i0==i1|| j0==j1)) continue;
-    if(f1*f2 && f1==f2*2 && (i1==i2|| j1==j2)) continue;
-    if(f2*f0 && f0==f2*4 && (i2==i0|| j2==j0)) continue;
+    int f2 = 1*tele->isDetected(vp,"Be9",en,i[2],j[2]);
     //
     if(f0*f1*f2) 
     {
