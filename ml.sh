@@ -4,7 +4,7 @@ start=$(date +%s%N)
 start_ms=${start:0:16}
 
 ##
-thread_num=35
+thread_num=20
 
 #------------------------------------
 tmpfifo=$$.fifo
@@ -18,12 +18,12 @@ do
 	echo >&1000
 done
 
-for i in $(seq 31 200)
+for i in $(seq 1 40)
 do
 	read -u1000
 	{
 		echo begin $i
-		./acc.exe 8000000 $i
+		./acc.exe 12000000 $i
 		echo >&1000
 	} &
 done
